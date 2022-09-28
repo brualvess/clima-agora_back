@@ -1,6 +1,7 @@
 import { IUsuarios } from '../types/usuariosTypes.js'
 import { usuarioRepository } from '../repositories/usuarioRepository.js'
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'
 
 async function cadastroService(dados: Omit<IUsuarios, 'id'>) {
     const verificarEmail = await usuarioRepository.buscarEmail(dados.email)
@@ -15,6 +16,20 @@ async function cadastroService(dados: Omit<IUsuarios, 'id'>) {
     await usuarioRepository.inserir(obj)
 }
 
+async function loginService(email: string, senha: string) {
+    const buscarDados = await usuarioRepository.buscarEmail(email)
+    if (!buscarDados) {
+        throw { type: 'unauthorized' }
+    }
+    const verificarSenha = bcrypt.compareSync(senha, buscarDados.senha)
+    if (!verificarSenha) {
+        throw { type: 'unauthorized' }
+    }
+    const token = jwt.sign(buscarDados.id.toString(), process.env.SECRET)
+    return token;
+}
+
 export const usuariosService = {
-    cadastroService
+    cadastroService,
+    loginService
 }
