@@ -6,9 +6,12 @@ import {
     cadastro,
     login
 } from './schemas/usuariosSchema.js';
+import { climaController } from './controllers/climaController.js';
+
 const router = Router()
 
-router.post('/cadastro', joiValidation(cadastro), usuarioController.cadastro)
-router.post('/login', joiValidation(login), usuarioController.login)
+router.post('/cadastro', joiValidation(cadastro), usuarioController.cadastro);
+router.post('/login', joiValidation(login), usuarioController.login);
+router.get('/', climaController.clima);
 
 export default router
