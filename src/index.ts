@@ -20,3 +20,5 @@ app.use(errorhandler)
 app.listen(parseInt(process.env.PORT), () => {
     console.log(`Server on port ${process.env.PORT}`)
   });
+
+  export default app
