@@ -1,7 +1,6 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
-async function buscarCidade() {
-    const cidade = 'Brasília'
+async function buscarCidade(cidade: string) {
     const urlCodificada = encodeURI(`https://dataservice.accuweather.com/locations/v1/cities/BR/search?q=${cidade}&apikey=DoOL74bgN53vDpsTet6TWROgBA0gFm9i`)
     const buscarCidade = await axios.get(
         `${urlCodificada}`
@@ -14,8 +13,8 @@ async function buscarCidade() {
     }
     return obj
 }
-async function clima() {
-    const informacoes = await buscarCidade()
+async function clima(cidade: any) {
+    const informacoes = await buscarCidade(cidade)
     const retorno = await axios.get(
         `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${informacoes.chave}?apikey=DoOL74bgN53vDpsTet6TWROgBA0gFm9i&language=pt-br&metric=true`
     )
