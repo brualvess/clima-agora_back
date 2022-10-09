@@ -1,7 +1,11 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 async function buscarCidade(cidade: string) {
-    const urlCodificada = encodeURI(`https://dataservice.accuweather.com/locations/v1/cities/BR/search?q=${cidade}&apikey=DoOL74bgN53vDpsTet6TWROgBA0gFm9i`)
+    const urlCodificada = encodeURI(`https://dataservice.accuweather.com/locations/v1/cities/BR/search?q=${cidade}&apikey=${process.env.apiKey}`)
     const buscarCidade = await axios.get(
         `${urlCodificada}`
     )
@@ -16,7 +20,7 @@ async function buscarCidade(cidade: string) {
 async function clima(cidade: any) {
     const informacoes = await buscarCidade(cidade)
     const retorno = await axios.get(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${informacoes.chave}?apikey=DoOL74bgN53vDpsTet6TWROgBA0gFm9i&language=pt-br&metric=true`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${informacoes.chave}?apikey=sANcDb0LqAhJA5I5SubU1rPJhPBLMUiF&language=pt-br&metric=true`
     )
     const data = dayjs().locale('pt-br').format('DD/MM/YYYY h:mm:ss A')
     const obj = {
