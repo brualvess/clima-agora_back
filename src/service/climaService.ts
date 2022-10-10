@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 async function buscarCidade(cidade: string) {
-    const urlCodificada = encodeURI(`https://dataservice.accuweather.com/locations/v1/cities/BR/search?q=${cidade}&apikey=${process.env.apiKey}`)
+    const urlCodificada = encodeURI(`https://dataservice.accuweather.com/locations/v1/cities/BR/search?q=${cidade}&apikey=${process.env.apiKey2}`)
     const buscarCidade = await axios.get(
         `${urlCodificada}`
     )
@@ -20,7 +20,7 @@ async function buscarCidade(cidade: string) {
 async function clima(cidade: any) {
     const informacoes = await buscarCidade(cidade)
     const retorno = await axios.get(
-        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${informacoes.chave}?apikey=sANcDb0LqAhJA5I5SubU1rPJhPBLMUiF&language=pt-br&metric=true`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${informacoes.chave}?apikey=${process.env.apiKey2}&language=pt-br&metric=true`
     )
     const data = dayjs().locale('pt-br').format('DD/MM/YYYY h:mm:ss A')
     const obj = {
@@ -32,6 +32,7 @@ async function clima(cidade: any) {
         data: data
     }
     return obj;
+
 }
 export const climaService = {
     clima
